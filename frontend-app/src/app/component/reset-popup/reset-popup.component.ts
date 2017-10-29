@@ -5,9 +5,10 @@ import {ResetEmailParams} from "../../model/get-request/reset-email-params.model
 import {ResetService} from "../../service/reset.service";
 import {Message} from "../../model/message.model";
 import {MessageService} from "../../service/message.service";
+import {ResetStartStatus} from "../../status/reset-start-status";
 
 @Component({
-  selector: 'app-reset-popup',
+  selector: 'reset-popup',
   templateUrl: './reset-popup.component.html',
   styleUrls: ['./reset-popup.component.css']
 })
@@ -17,19 +18,26 @@ export class ResetPopupComponent implements OnInit {
 
   constructor(
     private service: ResetService,
-    private messages: MessageService) {
+    private messages: MessageService,
+    protected resetStatus: ResetStartStatus) {
     this.params = new ResetEmailParams();
+    this.resetStatus.setParams(this.params);
   }
 
   ngOnInit() {
   }
 
   @Input()
-  public status: LoginStatus;
+  public loginStatus: LoginStatus;
 
   public requestReset(): void {
+    if (!this.resetStatus.isPossible()){
+      this.closeReset();
+      this.messages.add(new Message("error", "Error", "Invalid username"));
+      return;
+    }
     this.service.requestReset(this.params).subscribe(
-      (response: SuccessResponse) => this.handleResetRequest(response.successful),
+      (response: SuccessResponse) => this.handleResetRequest(response.successful)
     );
   }
 
@@ -43,7 +51,12 @@ export class ResetPopupComponent implements OnInit {
   }
 
   public closeReset(): void {
-    this.status.setResetActive(false);
+    document.getElementById("reset-modal").classList.add("modal-flyaway");
+    document.getElementById("reset-modal-background").classList.add("background-disappear");
+    setTimeout(() => {
+      this.loginStatus.setResetActive(false)
+    }, 400)
+
   }
 
 }

@@ -25,9 +25,21 @@ export class SignupButtonComponent implements OnInit {
   public status: SignupStatus;
 
   public attemptSignup(): void {
+    if (!this.status.isPossible()) {
+      this.suspend();
+      return;
+    }
     this.service.attemptSignup(this.user).subscribe(
       (response: SuccessResponse) => this.handleSignupResponse(response.successful)
     );
+  }
+
+  private suspend(): void {
+    this.status.setSuspended(true);
+    this.messages.add(new Message("error", "Error", "Invalid signup data"));
+    setTimeout(()=>{
+      this.status.setSuspended(false);
+    }, 5000);
   }
 
   private handleSignupResponse(successful: boolean): void {

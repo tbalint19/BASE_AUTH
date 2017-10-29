@@ -29,14 +29,26 @@ export class LoginNavbarComponent implements OnInit {
   public status: LoginStatus;
 
   public attemptLogin(): void {
+    if (!this.status.isPossible()){
+      this.suspend();
+      return;
+    }
     this.service.attemptLogin(this.user).subscribe(
       (response: TokenResponse) => this.handleLoginResponse(
         response.token, this.user.credential)
     );
   }
 
+  public suspend(): void {
+    this.status.setSuspended(true);
+    this.messages.add(new Message("error", "Error", "Invalid login data"));
+    setTimeout(()=>{
+      this.status.setSuspended(false);
+    }, 5000);
+  }
+
   private handleLoginResponse(token: string, credential: string){
-    if (token){
+    if (token) {
       this.handleSuccessfulLogin(token, credential)
     } else {
       this.handleLoginError();
@@ -56,7 +68,8 @@ export class LoginNavbarComponent implements OnInit {
     this.messages.add(new Message("error", "Invalid credentials", "Try again"));
   }
 
-  public toggleReset(): void {
+  public openReset(): void {
+    this.status.setResetActive(true);
   }
 
 }

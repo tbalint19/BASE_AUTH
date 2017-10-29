@@ -35,6 +35,7 @@ import {LoginStatus} from "./status/login-status";
 import {CredentialValidator} from "./validator/credential-validator";
 import { NavbarLogoComponent } from './component/navbar-logo/navbar-logo.component';
 import { ResetPopupComponent } from './component/reset-popup/reset-popup.component';
+import {ResetStartStatus} from "./status/reset-start-status";
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { ResetPopupComponent } from './component/reset-popup/reset-popup.compone
     RequestFactory,
     SignupStatus,
     LoginStatus,
+    ResetStartStatus,
     ConfirmService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
