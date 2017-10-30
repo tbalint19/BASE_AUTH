@@ -33,7 +33,7 @@ export class ResetPopupComponent implements OnInit {
   public requestReset(): void {
     if (!this.resetStatus.isPossible()){
       this.closeReset();
-      this.messages.add(new Message("error", "Error", "Invalid username"));
+      this.messages.add(new Message("error", "Invalid credentials", "No email is sent"));
       return;
     }
     this.service.requestReset(this.params).subscribe(

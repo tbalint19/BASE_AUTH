@@ -9,6 +9,6 @@ public class SecurityConstants {
     public static final String DEFAULT_LOGIN_URL = "/login";
     public static final String CHECK_URLS = "/api/check/**";
     public static final String AUTH_URLS = "/api/auth/**";
-    public static final String CONFIRM_URL = "/api/confirm/finish";
+    public static final String CONFIRM_URLS = "/api/confirm/**";
     public static final String RESET_URLS = "/api/reset/**";
 }

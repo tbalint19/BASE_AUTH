@@ -1,6 +1,6 @@
 package com.base.coreapi.repository;
 
-import com.base.coreapi.model.ApplicationUser;
+import com.base.coreapi.model.auth.ApplicationUser;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<ApplicationUser, Long> {

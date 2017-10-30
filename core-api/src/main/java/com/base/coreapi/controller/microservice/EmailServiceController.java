@@ -1,11 +1,10 @@
 package com.base.coreapi.controller.microservice;
 
-import com.base.coreapi.model.ApplicationUser;
-import com.base.coreapi.model.Confirmation;
-import com.base.coreapi.model.Reset;
-import com.base.coreapi.model.request.ConfirmEmailRequest;
-import com.base.coreapi.model.request.ResetEmailRequest;
-import com.base.coreapi.model.response.AttemptResponse;
+import com.base.coreapi.model.auth.ApplicationUser;
+import com.base.coreapi.model.auth.Reset;
+import com.base.coreapi.model.auth.request.ConfirmEmailRequest;
+import com.base.coreapi.model.auth.request.ResetEmailRequest;
+import com.base.coreapi.model.common.response.AttemptResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

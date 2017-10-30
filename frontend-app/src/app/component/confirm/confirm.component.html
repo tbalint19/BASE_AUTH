@@ -1,48 +1,43 @@
+<info-navbar
+  [text]="'Confirm account for ' + confirmation.credential">
+</info-navbar>
+
 <div class="container">
   <div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 block-container">
     <div class="well">
-      <h3>Welcome</h3>
-      <p>
-        You are here to confirm {{ getReason() }}. (Not you?
-        <button
-          (click)="getStart()"
-          class="inline-text-button">
-          Back home.
-        </button>)
-      </p>
-      <p>
-        Please confirm your account before continuing to the site.
-        Check your email for the confirmation code.
-      </p>
+      <div class="user-sign">
+        <span class="glyphicon glyphicon-user"></span>
+      </div>
 
       <div class="row">
-        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div class="col-xs-offset-2 col-xs-8 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
           <input
             class="form-control"
             [(ngModel)]="confirmation.code"
             placeholder="Confirmation code"/>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <button
-            class="btn btn-success form-control"
-            (click)="attemptConfirm()">
-            Confirm
-          </button>
-        </div>
-        <p>
-          Please be aware that you have approx. 5-10 minutes to complete this step, afterwards
-          not confirmed accounts are deleted.
-        </p>
       </div>
 
-      <p>
-        In case you did not receive it, you can
+      <div class="button-container">
         <button
-          class="inline-text-button"
-          (click)="resendRequest()">
-          ask for a resend
-        </button>.
-      </p>
+          class="btn btn-success"
+          [disabled]="status.isPending() || status.isSuspended()"
+          (click)="attemptConfirm()">
+          Confirm
+        </button>
+      </div>
+
+      <div class="info-container">
+        <p>
+          Please be aware that you have approx. 5-10 minutes to complete this step, afterwards
+          not confirmed accounts are deleted. In case you did not receive it, you can
+          <button
+            class="inline-text-button"
+            (click)="resendRequest()">
+            ask for a resend
+          </button>.
+        </p>
+      </div>
     </div>
   </div>
 </div>
