@@ -5,10 +5,11 @@ import {TokenResponse} from '../../model/response/token-response';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {MessageService} from "../../service/message.service";
-import {Message} from "../../model/message.model";
 import {ConfirmStatus} from "../../status/confirm-status";
 import {ConfirmEmailParams} from "../../model/get-request/confirm-email-params.model";
 import {SuccessResponse} from "../../model/response/success-response.model";
+import {Success} from "../../model/message/success.model";
+import {Error} from "../../model/message/error.model";
 
 @Component({
   selector: 'app-confirm',
@@ -77,7 +78,7 @@ export class ConfirmComponent implements OnInit {
 
   private suspendConfirm(): void {
     this.status.setSuspended(true);
-    this.messages.add(new Message("error", "Error", "Unsuccessful confirmation"));
+    this.messages.add(new Error("Error", "Invalid data"));
     setTimeout(() => {
       this.status.setSuspended(false);
     }, 5000)
@@ -85,9 +86,9 @@ export class ConfirmComponent implements OnInit {
 
   private handleResendResponse(response: SuccessResponse): void {
     if (response.successful){
-      this.messages.add(new Message("success", "Success", "Email sent"));
+      this.messages.add(new Success("Email sent", "Check inbox for the code"));
     } else {
-      this.messages.add(new Message("error", "Error", "No user found"));
+      this.messages.add(new Error("No email sent", "Invalid email or out of time"));
     }
   }
 
@@ -101,12 +102,12 @@ export class ConfirmComponent implements OnInit {
 
   private handleSuccessfulConfirm(token: string): void {
     localStorage.setItem('auth-token', token);
-    this.messages.add(new Message("success","Successful confirmation" , "Your account is confirmed"))
+    this.messages.add(new Success("Welcome" , "Your account is confirmed"))
     this.router.navigate(['']);
   }
 
   private handleFailedConfirm(): void {
-    this.messages.add(new Message("error", "Error", "Unsuccessful confirmation"));
+    this.messages.add(new Error("Unsuccessful confirmation", "Invalid code or out of time"));
   }
 
 }
