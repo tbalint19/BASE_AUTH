@@ -1,50 +1,44 @@
 import {Injectable} from "@angular/core";
-import {LoginUser} from "../model/post-request/login-user.model";
 import {HttpClient} from "../http/http.client";
 import {RequestFactory} from "../factory/request-factory";
 import {CredentialValidator} from "../validator/credential-validator";
 import {PasswordValidator} from "../validator/password-validator";
+import {LoginDtoCreator} from "../model/creator/login-dto-creator";
+import {DtoFactory} from "../factory/dto-factory";
 
 @Injectable()
 export class LoginStatus {
 
-  private _user: LoginUser;
-  private _resetActive: boolean;
+  public creator: LoginDtoCreator;
+
   private _isSuspended: boolean;
 
   constructor(
     private _requestObserver: HttpClient,
-    private _factory: RequestFactory,
+    private requestFactory: RequestFactory,
+    private dtoFactory: DtoFactory,
     private _credentialValidator: CredentialValidator,
-    private _passwordValidator: PasswordValidator){}
-
-  public setUser(user: LoginUser){
-      this._user = user;
+    private _passwordValidator: PasswordValidator
+  ){
+    this.creator = new LoginDtoCreator();
   }
 
   public setSuspended(isSuspended: boolean): void {
     this._isSuspended = isSuspended;
   }
 
-  public resetIsActive(): boolean {
-    return this._resetActive;
-  }
-
-  public setResetActive(isActive: boolean): void {
-    this._resetActive = isActive;
-  }
-
   public credentialIsValid(): boolean{
-    return this._credentialValidator.validFormat(this._user.credential);
+    return this._credentialValidator.validFormat(this.creator.credential);
   }
 
   public passwordIsValid(): boolean {
-    return this._passwordValidator.validFormat(this._user.password);
+    return this._passwordValidator.validFormat(this.creator.password);
   }
 
   public isPending(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createLoginRequest(this._user));
+      this.requestFactory.createLoginRequest(
+        this.dtoFactory.createLoginDTO(this.creator)));
   }
 
   public isSuspended(): boolean {

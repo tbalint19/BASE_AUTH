@@ -1,11 +1,11 @@
-export class LoginUser {
+export class ConfirmationDTO {
 
   credential: string;
-  password: string;
+  code: string;
 
-  initialize(){
+  initialize(): void {
     this.credential = "";
-    this.password = "";
+    this.code = "";
   }
 
   constructor(){
@@ -13,6 +13,6 @@ export class LoginUser {
   }
 
   reset(){
-    this.initialize()
+    this.initialize();
   }
 }

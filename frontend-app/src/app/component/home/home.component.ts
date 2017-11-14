@@ -11,18 +11,10 @@ import {Note} from "../../model/message/note.model";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(
-    private router: Router,
-    private messages: MessageService) { }
+  constructor() { }
 
   ngOnInit() {
     sessionStorage.removeItem("credential");
-  }
-
-  logout(){
-    localStorage.removeItem("auth-token");
-    this.messages.add(new Note("Logout completed", "Be back soon"));
-    this.router.navigate(['start']);
   }
 
 }

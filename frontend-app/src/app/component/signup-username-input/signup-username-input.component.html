@@ -1,6 +1,6 @@
 <input
   class="form-control"
-  [(ngModel)]="user.username"
+  [(ngModel)]="status.creator.username"
   (ngModelChange)="checkUsername()"
   placeholder="Username"
   [disabled]="status.isPending()"/>

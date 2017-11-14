@@ -1,45 +1,48 @@
-import {SignupUser} from "../model/post-request/signup-user.model";
+import {SignupDTO} from "../model/dto/signup-dto.model";
 import {UsernameValidator} from "../validator/username-validator";
 import {HttpClient} from "../http/http.client";
-import {HttpRequest} from "../model/http-request.model";
+import {HttpRequest} from "../model/http/http-request.model";
 import {RequestFactory} from "../factory/request-factory";
 import {Injectable, OnInit} from "@angular/core";
 import {EmailValidator} from "../validator/email-validator";
 import {PasswordValidator} from "../validator/password-validator";
-import {CheckUsernameParams} from "../model/get-request/check-username-params.model";
-import {CheckEmailParams} from "../model/get-request/check-email-params.model";
+import {CheckUsernameParams} from "../model/params/check-username-params.model";
+import {CheckEmailParams} from "../model/params/check-email-params.model";
+import {SignupDtoCreator} from "../model/creator/signup-dto-creator";
+import {DtoFactory} from "../factory/dto-factory";
 
 @Injectable()
 export class SignupStatus {
 
-  private _user: SignupUser;
+  public creator: SignupDtoCreator;
+
   private _usernameIsAvailable: boolean;
   private _emailIsAvailable: boolean;
   private _isSuspended: boolean;
 
   constructor(
     private _requestObserver: HttpClient,
-    private _factory: RequestFactory,
+    private _requestFactory: RequestFactory,
+    private _dtoFactory: DtoFactory,
     private _usernameValidator: UsernameValidator,
     private _emailValidator: EmailValidator,
-    private _passwordValidator: PasswordValidator){}
-
-  public setUser(user: SignupUser){
-      this._user = user;
+    private _passwordValidator: PasswordValidator){
+    this.creator = new SignupDtoCreator();
   }
+
 
   public setSuspended(isSuspended: boolean): void {
     this._isSuspended = isSuspended;
   }
 
   public usernameIsValid(): boolean {
-    return this._usernameValidator.validFormat(this._user.username);
+    return this._usernameValidator.validFormat(this.creator.username);
   }
 
   public usernameIsChecked(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createUsernameCheckRequest(
-        new CheckUsernameParams(this._user.username)));
+      this._requestFactory.createUsernameCheckRequest(
+        new CheckUsernameParams(this.creator.username)));
   }
 
   public usernameIsAvailable(): boolean {
@@ -51,13 +54,13 @@ export class SignupStatus {
   }
 
   public emailIsValid(): boolean {
-    return this._emailValidator.validFormat(this._user.email);
+    return this._emailValidator.validFormat(this.creator.email);
   }
 
   public emailIsChecked(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createEmailCheckRequest(
-        new CheckEmailParams(this._user.email)));
+      this._requestFactory.createEmailCheckRequest(
+        new CheckEmailParams(this.creator.email)));
   }
 
   public emailIsAvailable(): boolean {
@@ -69,16 +72,18 @@ export class SignupStatus {
   }
 
   public passwordIsValid(): boolean {
-    return this._passwordValidator.validFormat(this._user.password);
+    return this._passwordValidator.validFormat(this.creator.password);
   }
 
   public passwordMatches(): boolean {
-    return this._user.password == this._user.passwordAgain;
+    return this.creator.password == this.creator.passwordAgain;
   }
 
   public isPending(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createSignupRequest(this._user));
+      this._requestFactory.createSignupRequest(
+        this._dtoFactory.createSignupDTO(this.creator)
+      ));
   }
 
   public isSuspended(): boolean {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {Reset} from "../../model/post-request/reset.model";
+import {Reset} from "../../model/dto/reset.model";
 import {Location} from '@angular/common';
 import {ResetService} from "../../service/reset.service";
-import {SuccessResponse} from "../../model/response/success-response.model";
+import {SuccessResponse} from "../../model/dto/success-response.model";
 import {MessageService} from "../../service/message.service";
 import {Message} from "../../model/message/message.model";
 import {ResetStatus} from "../../status/reset-status";

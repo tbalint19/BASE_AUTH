@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Confirmation} from "../model/post-request/confirmation.model";
+import {ConfirmationDTO} from "../model/dto/confirmationDTO.model";
 import {ConfirmCodeValidator} from "../validator/confirm-code-validator";
 import {CredentialValidator} from "../validator/credential-validator";
 import {HttpClient} from "../http/http.client";
@@ -8,7 +8,7 @@ import {RequestFactory} from "../factory/request-factory";
 @Injectable()
 export class ConfirmStatus {
 
-  private _confirm: Confirmation;
+  private _confirm: ConfirmationDTO;
   private _suspended: boolean;
 
   constructor(
@@ -17,7 +17,7 @@ export class ConfirmStatus {
     private _requestObserver: HttpClient,
     private _factory: RequestFactory){}
 
-  public setConfirm(confirmation: Confirmation): void {
+  public setConfirm(confirmation: ConfirmationDTO): void {
     this._confirm = confirmation;
   }
 

@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '../http/http.client';
-import {LoginUser} from '../model/post-request/login-user.model';
 import {Observable} from 'rxjs/Observable';
-import {TokenResponse} from '../model/response/token-response';
+import {TokenResponse} from '../model/dto/token-response';
 import {RequestFactory} from "../factory/request-factory";
+import {LoginDtoCreator} from "../model/creator/login-dto-creator";
+import {DtoFactory} from "../factory/dto-factory";
 
 @Injectable()
 export class LoginService {
 
-  constructor(private client: HttpClient, private _factory: RequestFactory) { }
+  constructor(
+    private client: HttpClient,
+    private requestFactory: RequestFactory,
+    private dtoFactory: DtoFactory
+  ) { }
 
-  public attemptLogin(loginUser: LoginUser): Observable<TokenResponse> {
-    return this.client.transfer(this._factory.createLoginRequest(loginUser));
+  public attemptLogin(creator: LoginDtoCreator): Observable<TokenResponse> {
+    return this.client.transfer(
+      this.requestFactory.createLoginRequest(
+        this.dtoFactory.createLoginDTO(creator)));
   }
 }

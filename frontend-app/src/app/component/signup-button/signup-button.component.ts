@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SignupUser} from "../../model/post-request/signup-user.model";
+import {SignupDTO} from "../../model/dto/signup-dto.model";
 import {SignupStatus} from "../../status/signup-status";
-import {SuccessResponse} from "../../model/response/success-response.model";
+import {SuccessResponse} from "../../model/dto/success-response.model";
 import {SignupService} from "../../service/signup.service";
 import {Message} from "../../model/message/message.model";
 import {MessageService} from "../../service/message.service";
@@ -15,23 +15,21 @@ import {Success} from "../../model/message/success.model";
 })
 export class SignupButtonComponent implements OnInit {
 
-  constructor(private service: SignupService, public messages: MessageService) { }
+  constructor(
+    private service: SignupService,
+    public messages: MessageService,
+    protected status: SignupStatus
+  ) { }
 
   ngOnInit() {
   }
-
-  @Input()
-  public user: SignupUser;
-
-  @Input()
-  public status: SignupStatus;
 
   public attemptSignup(): void {
     if (!this.status.isPossible()) {
       this.suspend();
       return;
     }
-    this.service.attemptSignup(this.user).subscribe(
+    this.service.attemptSignup(this.status.creator).subscribe(
       (response: SuccessResponse) => this.handleSignupResponse(response.successful)
     );
   }
@@ -47,7 +45,7 @@ export class SignupButtonComponent implements OnInit {
   private handleSignupResponse(successful: boolean): void {
     if (successful) {
       this.messages.add(new Success("Successful signup", "You can log in now"));
-      this.user.reset();
+      this.status.creator.reset();
     } else {
       this.messages.add(new Error("Ooops!", "Something went wrong"));
     }

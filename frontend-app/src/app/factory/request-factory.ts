@@ -1,13 +1,13 @@
-import {HttpRequest} from "../model/http-request.model";
+import {HttpRequest} from "../model/http/http-request.model";
 import {Injectable} from "@angular/core";
-import {SignupUser} from "../model/post-request/signup-user.model";
-import {LoginUser} from "../model/post-request/login-user.model";
-import {Confirmation} from "../model/post-request/confirmation.model";
-import {Reset} from "../model/post-request/reset.model";
-import {ResetEmailParams} from "../model/get-request/reset-email-params.model";
-import {ConfirmEmailParams} from "../model/get-request/confirm-email-params.model";
-import {CheckUsernameParams} from "../model/get-request/check-username-params.model";
-import {CheckEmailParams} from "../model/get-request/check-email-params.model";
+import {SignupDTO} from "../model/dto/signup-dto.model";
+import {LoginDTO} from "../model/dto/login-dto.model";
+import {ConfirmationDTO} from "../model/dto/confirmationDTO.model";
+import {Reset} from "../model/dto/reset.model";
+import {ResetEmailParams} from "../model/params/reset-email-params.model";
+import {ConfirmEmailParams} from "../model/params/confirm-email-params.model";
+import {CheckUsernameParams} from "../model/params/check-username-params.model";
+import {CheckEmailParams} from "../model/params/check-email-params.model";
 
 @Injectable()
 export class RequestFactory {
@@ -20,11 +20,11 @@ export class RequestFactory {
     return new HttpRequest("/api/check/email", "GET", params);
   }
 
-  public createSignupRequest(user: SignupUser): HttpRequest {
+  public createSignupRequest(user: SignupDTO): HttpRequest {
     return new HttpRequest("/api/auth/signup", "POST", user);
   }
 
-  public createLoginRequest(user: LoginUser): HttpRequest {
+  public createLoginRequest(user: LoginDTO): HttpRequest {
     return new HttpRequest("/api/auth/login", "POST", user);
   }
 
@@ -32,7 +32,7 @@ export class RequestFactory {
     return new HttpRequest("/api/confirm/start", "GET", params);
   }
 
-  public createConfirmRequest(confirmation: Confirmation): HttpRequest {
+  public createConfirmRequest(confirmation: ConfirmationDTO): HttpRequest {
     return new HttpRequest("/api/confirm/finish", "POST", confirmation);
   }
 

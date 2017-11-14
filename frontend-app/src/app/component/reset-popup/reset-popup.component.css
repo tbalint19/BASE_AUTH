@@ -67,6 +67,14 @@ input {
   margin-top: 15px;
 }
 
+.input-container {
+  width: 100%;
+}
+
+#full-width-fix {
+  width: 100%;
+}
+
 .button-container {
   text-align: right;
   margin-top: 20px;

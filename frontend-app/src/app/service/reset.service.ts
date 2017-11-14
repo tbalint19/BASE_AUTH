@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "../http/http.client";
 import {Observable} from "rxjs/Observable";
-import {SuccessResponse} from "../model/response/success-response.model";
-import {Reset} from "../model/post-request/reset.model";
+import {SuccessResponse} from "../model/dto/success-response.model";
+import {Reset} from "../model/dto/reset.model";
 import {RequestFactory} from "../factory/request-factory";
-import {ResetEmailParams} from "../model/get-request/reset-email-params.model";
+import {ResetEmailParams} from "../model/params/reset-email-params.model";
 
 @Injectable()
 export class ResetService {

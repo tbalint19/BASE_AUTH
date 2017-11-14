@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {Confirmation} from '../../model/post-request/confirmation.model';
+import {ConfirmationDTO} from '../../model/dto/confirmationDTO.model';
 import {ConfirmService} from '../../service/confirm.service';
-import {TokenResponse} from '../../model/response/token-response';
+import {TokenResponse} from '../../model/dto/token-response';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {MessageService} from "../../service/message.service";
 import {ConfirmStatus} from "../../status/confirm-status";
-import {ConfirmEmailParams} from "../../model/get-request/confirm-email-params.model";
-import {SuccessResponse} from "../../model/response/success-response.model";
+import {ConfirmEmailParams} from "../../model/params/confirm-email-params.model";
+import {SuccessResponse} from "../../model/dto/success-response.model";
 import {Success} from "../../model/message/success.model";
 import {Error} from "../../model/message/error.model";
 
@@ -18,7 +18,7 @@ import {Error} from "../../model/message/error.model";
 })
 export class ConfirmComponent implements OnInit {
 
-  public confirmation: Confirmation;
+  public confirmation: ConfirmationDTO;
   public resendParams: ConfirmEmailParams;
 
   constructor(
@@ -29,7 +29,7 @@ export class ConfirmComponent implements OnInit {
     private messages: MessageService,
     private router: Router) {
     this.resendParams = new ConfirmEmailParams();
-    this.confirmation = new Confirmation();
+    this.confirmation = new ConfirmationDTO();
     this.status.setConfirm(this.confirmation);
   }
 

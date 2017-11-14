@@ -1,11 +1,17 @@
+<button
+  class="btn btn-default"
+  (click)="openReset()">
+  <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+</button>
+
 <div
-  *ngIf="loginStatus.resetIsActive()"
+  *ngIf="status.isOpen()"
   class="reset-modal-background"
   id="reset-modal-background">
 </div>
 
 <div
-  *ngIf="loginStatus.resetIsActive()"
+  *ngIf="status.isOpen()"
   class="reset-modal-container"
   id="reset-modal">
   <h3>Forgotten password</h3>
@@ -16,10 +22,12 @@
   <p>
     Follow the instructions we sent you with it.
   </p>
-  <input
-    class="form-control"
-    [(ngModel)]="params.credential"
-    placeholder="Username or email address"/>
+  <div class="input-container">
+    <input
+      class="form-control" id="full-width-fix"
+      [(ngModel)]="status.params.credential"
+      placeholder="Username or email address">
+  </div>
 
   <div class="button-container">
     <button

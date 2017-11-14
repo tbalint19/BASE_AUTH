@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LoginUser} from "../../model/post-request/login-user.model";
-import {TokenResponse} from "../../model/response/token-response";
+import {LoginDTO} from "../../model/dto/login-dto.model";
+import {TokenResponse} from "../../model/dto/token-response";
 import {Message} from "../../model/message/message.model";
 import {Router} from "@angular/router";
 import {LoginService} from "../../service/login.service";
@@ -19,25 +19,20 @@ export class LoginNavbarComponent implements OnInit {
   constructor(
     private router: Router,
     private service: LoginService,
-    private messages: MessageService) { }
+    protected status: LoginStatus,
+    private messages: MessageService
+  ) { }
 
   ngOnInit() {
   }
-
-  @Input()
-  public user: LoginUser;
-
-  @Input()
-  public status: LoginStatus;
 
   public attemptLogin(): void {
     if (!this.status.isPossible()){
       this.suspend();
       return;
     }
-    this.service.attemptLogin(this.user).subscribe(
-      (response: TokenResponse) => this.handleLoginResponse(
-        response.token, this.user.credential)
+    this.service.attemptLogin(this.status.creator).subscribe(
+      (response: TokenResponse) => this.handleLoginResponse(response.token)
     );
   }
 
@@ -49,18 +44,18 @@ export class LoginNavbarComponent implements OnInit {
     }, 5000);
   }
 
-  private handleLoginResponse(token: string, credential: string){
+  private handleLoginResponse(token: string){
     if (token) {
-      this.handleSuccessfulLogin(token, credential)
+      this.handleSuccessfulLogin(token)
     } else {
       this.handleLoginError();
     }
   }
 
-  private handleSuccessfulLogin(token: string, credential: string): void {
+  private handleSuccessfulLogin(token: string): void {
     if (token != null) {
       localStorage.setItem('auth-token', token);
-      sessionStorage.setItem('credential', credential);
+      sessionStorage.setItem('credential', this.status.creator.credential);
       this.messages.add(new Success("Successful login", "Welcome"));
       this.router.navigate(['']);
     }
@@ -69,9 +64,4 @@ export class LoginNavbarComponent implements OnInit {
   private handleLoginError(){
     this.messages.add(new Error("Invalid credentials", "Try again"));
   }
-
-  public openReset(): void {
-    this.status.setResetActive(true);
-  }
-
 }

@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SignupUser} from "../../model/post-request/signup-user.model";
+import {Component, OnInit} from '@angular/core';
 import {SignupStatus} from "../../status/signup-status";
 
 @Component({
@@ -9,15 +8,11 @@ import {SignupStatus} from "../../status/signup-status";
 })
 export class SignupPasswordInputComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    protected status: SignupStatus
+  ) { }
 
   ngOnInit() {
   }
-
-  @Input()
-  public user: SignupUser;
-
-  @Input()
-  public status: SignupStatus;
 
 }

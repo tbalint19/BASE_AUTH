@@ -42,6 +42,7 @@ import {ResetStatus} from "./status/reset-status";
 import {ResetCodeValidator} from "./validator/reset-code-validator";
 import {ConfirmStatus} from "./status/confirm-status";
 import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
+import {DtoFactory} from "./factory/dto-factory";
 
 @NgModule({
   declarations: [
@@ -78,19 +79,20 @@ import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
     LoginService,
     ResetService,
     MessageService,
+    ConfirmService,
     UsernameValidator,
     EmailValidator,
     CredentialValidator,
     PasswordValidator,
+    ConfirmCodeValidator,
+    ResetCodeValidator,
     RequestFactory,
+    DtoFactory,
     SignupStatus,
     LoginStatus,
     ResetStartStatus,
     ResetStatus,
-    ResetCodeValidator,
-    ConfirmService,
-    ConfirmStatus,
-    ConfirmCodeValidator
+    ConfirmStatus
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

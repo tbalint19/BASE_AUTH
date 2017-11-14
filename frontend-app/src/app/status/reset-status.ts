@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Reset} from "../model/post-request/reset.model";
+import {Reset} from "../model/dto/reset.model";
 import {ResetCodeValidator} from "../validator/reset-code-validator";
 import {HttpClient} from "../http/http.client";
 import {RequestFactory} from "../factory/request-factory";
