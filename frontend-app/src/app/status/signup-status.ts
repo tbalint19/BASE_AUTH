@@ -1,4 +1,4 @@
-import {SignupDTO} from "../model/dto/signup-dto.model";
+import {SignupDTO} from "../model/dto/signup-dto";
 import {UsernameValidator} from "../validator/username-validator";
 import {HttpClient} from "../http/http.client";
 import {HttpRequest} from "../model/http/http-request.model";
@@ -10,6 +10,7 @@ import {CheckUsernameParams} from "../model/params/check-username-params.model";
 import {CheckEmailParams} from "../model/params/check-email-params.model";
 import {SignupDtoCreator} from "../model/creator/signup-dto-creator";
 import {DtoFactory} from "../factory/dto-factory";
+import {ParamFactory} from "../factory/param-factory";
 
 @Injectable()
 export class SignupStatus {
@@ -24,6 +25,7 @@ export class SignupStatus {
     private _requestObserver: HttpClient,
     private _requestFactory: RequestFactory,
     private _dtoFactory: DtoFactory,
+    private paramFactory: ParamFactory,
     private _usernameValidator: UsernameValidator,
     private _emailValidator: EmailValidator,
     private _passwordValidator: PasswordValidator){
@@ -42,7 +44,7 @@ export class SignupStatus {
   public usernameIsChecked(): boolean {
     return this._requestObserver.findPending(
       this._requestFactory.createUsernameCheckRequest(
-        new CheckUsernameParams(this.creator.username)));
+        this.paramFactory.createUsernameCheckParams(this.creator)));
   }
 
   public usernameIsAvailable(): boolean {
@@ -60,7 +62,7 @@ export class SignupStatus {
   public emailIsChecked(): boolean {
     return this._requestObserver.findPending(
       this._requestFactory.createEmailCheckRequest(
-        new CheckEmailParams(this.creator.email)));
+        this.paramFactory.createEmailCheckParams(this.creator)));
   }
 
   public emailIsAvailable(): boolean {

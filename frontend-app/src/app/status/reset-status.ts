@@ -1,15 +1,17 @@
 import {Injectable} from "@angular/core";
-import {Reset} from "../model/dto/reset.model";
 import {ResetCodeValidator} from "../validator/reset-code-validator";
 import {HttpClient} from "../http/http.client";
 import {RequestFactory} from "../factory/request-factory";
 import {UsernameValidator} from "../validator/username-validator";
 import {PasswordValidator} from "../validator/password-validator";
+import {ResetDtoCreator} from "../model/creator/reset-dto-creator";
+import {DtoFactory} from "../factory/dto-factory";
 
 @Injectable()
 export class ResetStatus {
 
-  private _reset: Reset;
+  public resetDtoCreator: ResetDtoCreator;
+
   private _suspended: boolean;
 
   constructor(
@@ -17,11 +19,9 @@ export class ResetStatus {
     private _codeValidator: ResetCodeValidator,
     private _passwordValidator: PasswordValidator,
     private _requestObserver: HttpClient,
-    private _factory: RequestFactory){
-  }
-
-  public setReset(reset: Reset): void {
-    this._reset = reset;
+    private requestFactory: RequestFactory,
+    private dtoFactory: DtoFactory){
+    this.resetDtoCreator = new ResetDtoCreator();
   }
 
   public setSuspended(isSuspended: boolean): void {
@@ -29,23 +29,25 @@ export class ResetStatus {
   }
 
   public usernameIsValid(): boolean {
-    return this._usernameValidator.validFormat(this._reset.username);
+    return this._usernameValidator.validFormat(this.resetDtoCreator.username);
   }
 
   public resetIsValid(): boolean {
-    return this._codeValidator.validFormat(this._reset.code);
+    return this._codeValidator.validFormat(this.resetDtoCreator.code);
   }
 
   public passwordIsValid(): boolean {
-    return this._passwordValidator.validFormat(this._reset.password);
+    return this._passwordValidator.validFormat(this.resetDtoCreator.password);
   }
 
   public passwordMatches(): boolean {
-    return this._reset.password == this._reset.passwordAgain;
+    return this.resetDtoCreator.password == this.resetDtoCreator.passwordAgain;
   }
 
   public isPending(): boolean {
-    return this._requestObserver.findPending(this._factory.createResetRequest(this._reset));
+    return this._requestObserver.findPending(
+      this.requestFactory.createResetRequest(
+        this.dtoFactory.createResetDTO(this.resetDtoCreator)));
   }
 
   public isPossible(): boolean {

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SignupDTO} from "../../model/dto/signup-dto.model";
+import {SignupDTO} from "../../model/dto/signup-dto";
 import {SignupStatus} from "../../status/signup-status";
-import {SuccessResponse} from "../../model/dto/success-response.model";
+import {SuccessResponse} from "../../model/response/success-response";
 import {SignupService} from "../../service/signup.service";
 import {Message} from "../../model/message/message.model";
 import {MessageService} from "../../service/message.service";

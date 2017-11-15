@@ -43,6 +43,7 @@ import {ResetCodeValidator} from "./validator/reset-code-validator";
 import {ConfirmStatus} from "./status/confirm-status";
 import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
 import {DtoFactory} from "./factory/dto-factory";
+import {ParamFactory} from "./factory/param-factory";
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import {DtoFactory} from "./factory/dto-factory";
     ConfirmCodeValidator,
     ResetCodeValidator,
     RequestFactory,
+    ParamFactory,
     DtoFactory,
     SignupStatus,
     LoginStatus,

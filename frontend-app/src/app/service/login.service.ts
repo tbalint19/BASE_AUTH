@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '../http/http.client';
 import {Observable} from 'rxjs/Observable';
-import {TokenResponse} from '../model/dto/token-response';
+import {TokenResponse} from '../model/response/token-response';
 import {RequestFactory} from "../factory/request-factory";
 import {LoginDtoCreator} from "../model/creator/login-dto-creator";
 import {DtoFactory} from "../factory/dto-factory";

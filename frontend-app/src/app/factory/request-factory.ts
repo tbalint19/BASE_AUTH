@@ -1,13 +1,13 @@
 import {HttpRequest} from "../model/http/http-request.model";
 import {Injectable} from "@angular/core";
-import {SignupDTO} from "../model/dto/signup-dto.model";
-import {LoginDTO} from "../model/dto/login-dto.model";
-import {ConfirmationDTO} from "../model/dto/confirmationDTO.model";
-import {Reset} from "../model/dto/reset.model";
+import {SignupDTO} from "../model/dto/signup-dto";
+import {LoginDTO} from "../model/dto/login-dto";
+import {ConfirmationDTO} from "../model/dto/confirm-dto";
 import {ResetEmailParams} from "../model/params/reset-email-params.model";
 import {ConfirmEmailParams} from "../model/params/confirm-email-params.model";
 import {CheckUsernameParams} from "../model/params/check-username-params.model";
 import {CheckEmailParams} from "../model/params/check-email-params.model";
+import {ResetDTO} from "../model/dto/reset-dto";
 
 @Injectable()
 export class RequestFactory {
@@ -40,7 +40,7 @@ export class RequestFactory {
     return new HttpRequest("/api/reset/start", "GET", params);
   }
 
-  public createResetRequest(reset: Reset): HttpRequest{
-    return new HttpRequest("/api/reset/finish", "POST", reset);
+  public createResetRequest(dto: ResetDTO): HttpRequest{
+    return new HttpRequest("/api/reset/finish", "POST", dto);
   }
 }

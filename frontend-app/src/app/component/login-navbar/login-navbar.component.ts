@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LoginDTO} from "../../model/dto/login-dto.model";
-import {TokenResponse} from "../../model/dto/token-response";
+import {LoginDTO} from "../../model/dto/login-dto";
+import {TokenResponse} from "../../model/response/token-response";
 import {Message} from "../../model/message/message.model";
 import {Router} from "@angular/router";
 import {LoginService} from "../../service/login.service";

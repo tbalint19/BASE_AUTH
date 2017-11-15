@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {ConfirmationDTO} from '../../model/dto/confirmationDTO.model';
+import {ConfirmationDTO} from '../../model/dto/confirm-dto';
 import {ConfirmService} from '../../service/confirm.service';
-import {TokenResponse} from '../../model/dto/token-response';
+import {TokenResponse} from '../../model/response/token-response';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {MessageService} from "../../service/message.service";
 import {ConfirmStatus} from "../../status/confirm-status";
 import {ConfirmEmailParams} from "../../model/params/confirm-email-params.model";
-import {SuccessResponse} from "../../model/dto/success-response.model";
+import {SuccessResponse} from "../../model/response/success-response";
 import {Success} from "../../model/message/success.model";
 import {Error} from "../../model/message/error.model";
 
@@ -18,9 +18,6 @@ import {Error} from "../../model/message/error.model";
 })
 export class ConfirmComponent implements OnInit {
 
-  public confirmation: ConfirmationDTO;
-  public resendParams: ConfirmEmailParams;
-
   constructor(
     private confirmService: ConfirmService,
     protected status: ConfirmStatus,
@@ -28,12 +25,11 @@ export class ConfirmComponent implements OnInit {
     private location: Location,
     private messages: MessageService,
     private router: Router) {
-    this.resendParams = new ConfirmEmailParams();
-    this.confirmation = new ConfirmationDTO();
-    this.status.setConfirm(this.confirmation);
   }
 
   ngOnInit() {
+    this.status.confirmDtoCreator.reset();
+    this.status.confirmEmailParamsCreator.reset();
     this.activatedRoute.queryParams.subscribe(
       (params: Params) => {
         if (params['code'] && params['user']) {
@@ -52,27 +48,27 @@ export class ConfirmComponent implements OnInit {
       this.suspendConfirm();
       return;
     }
-    this.confirmService.attemptConfirm(this.confirmation).subscribe(
+    this.confirmService.attemptConfirm(this.status.confirmDtoCreator).subscribe(
       (response: TokenResponse) => this.handleConfirmResponse(response)
     );
   }
 
   public resendRequest(): void {
-    this.confirmService.requestConfirm(this.resendParams).subscribe(
+    this.confirmService.requestConfirm(this.status.confirmEmailParamsCreator).subscribe(
       (response: SuccessResponse) => this.handleResendResponse(response)
     );
   }
 
   private attemptConfirmFromParams(params: Params): void {
     this.location.replaceState('confirm');
-    this.confirmation.code = params['code'];
-    this.confirmation.credential = params['user'];
+    this.status.confirmDtoCreator.code = params['code'];
+    this.status.confirmDtoCreator.credential = params['user'];
     this.attemptConfirm();
   }
 
   private initConfirmFromLogin(): void {
-    this.confirmation.credential = sessionStorage.getItem('credential');
-    this.resendParams.credential = sessionStorage.getItem('credential');
+    this.status.confirmDtoCreator.credential = sessionStorage.getItem('credential');
+    this.status.confirmEmailParamsCreator.credential = sessionStorage.getItem('credential');
     sessionStorage.removeItem('credential');
   }
 

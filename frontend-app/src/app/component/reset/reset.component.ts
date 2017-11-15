@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {Reset} from "../../model/dto/reset.model";
 import {Location} from '@angular/common';
 import {ResetService} from "../../service/reset.service";
-import {SuccessResponse} from "../../model/dto/success-response.model";
+import {SuccessResponse} from "../../model/response/success-response";
 import {MessageService} from "../../service/message.service";
-import {Message} from "../../model/message/message.model";
 import {ResetStatus} from "../../status/reset-status";
 import {Error} from "../../model/message/error.model";
 import {Success} from "../../model/message/success.model";
@@ -17,20 +15,16 @@ import {Success} from "../../model/message/success.model";
 })
 export class ResetComponent implements OnInit {
 
-  public reset: Reset;
-
   constructor(
     private resetService: ResetService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private messages: MessageService,
     protected status: ResetStatus,
-    private location: Location) {
-    this.reset = new Reset();
-    this.status.setReset(this.reset);
-  }
+    private location: Location) { }
 
   ngOnInit() {
+    this.status.resetDtoCreator.reset();
     this.activatedRoute.queryParams.subscribe(
       (params: Params) => {
         if (params['code'] && params['user']) {
@@ -47,7 +41,7 @@ export class ResetComponent implements OnInit {
       this.suspend();
       return;
     }
-    this.resetService.attemptReset(this.reset).subscribe(
+    this.resetService.attemptReset(this.status.resetDtoCreator).subscribe(
       (response: SuccessResponse) => this.handleResetResponse(response.successful)
     )
   }
@@ -61,8 +55,8 @@ export class ResetComponent implements OnInit {
   }
 
   private initResetFromParams(params: Params): void {
-    this.reset.username = params['user'];
-    this.reset.code = params['code'];
+    this.status.resetDtoCreator.username = params['user'];
+    this.status.resetDtoCreator.code = params['code'];
     this.location.replaceState("reset");
   }
 

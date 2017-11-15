@@ -1,15 +1,15 @@
-export class ResetEmailParamsCreator {
-
+export class ConfirmEmailParamsCreator {
+  
   public credential: string;
-
+  
   constructor(){
-    this.initialize()
+    this.initialize();
   }
-
+  
   public reset(): void {
-    this.initialize()
+    this.initialize();
   }
-
+  
   private initialize(): void {
     this.credential = "";
   }

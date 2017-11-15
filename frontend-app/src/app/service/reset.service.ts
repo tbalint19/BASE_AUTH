@@ -1,21 +1,30 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "../http/http.client";
 import {Observable} from "rxjs/Observable";
-import {SuccessResponse} from "../model/dto/success-response.model";
-import {Reset} from "../model/dto/reset.model";
+import {SuccessResponse} from "../model/response/success-response";
 import {RequestFactory} from "../factory/request-factory";
-import {ResetEmailParams} from "../model/params/reset-email-params.model";
+import {ResetEmailParamsCreator} from "../model/creator/reset-email-params-creator";
+import {ParamFactory} from "../factory/param-factory";
+import {ResetDtoCreator} from "../model/creator/reset-dto-creator";
+import {DtoFactory} from "../factory/dto-factory";
 
 @Injectable()
 export class ResetService {
 
-  constructor(private client: HttpClient, private _factory: RequestFactory) { }
+  constructor(
+    private client: HttpClient,
+    private requestFactory: RequestFactory,
+    private paramFactory: ParamFactory,
+    private dtoFactory: DtoFactory) { }
 
-  public requestReset(resetEmailParams: ResetEmailParams): Observable<SuccessResponse> {
-    return this.client.transfer(this._factory.createResetEmailRequest(resetEmailParams));
+  public requestReset(creator: ResetEmailParamsCreator): Observable<SuccessResponse> {
+    return this.client.transfer(
+      this.requestFactory.createResetEmailRequest(
+        this.paramFactory.createResetEmailParams(creator)));
   }
 
-  public attemptReset(reset: Reset): Observable<SuccessResponse> {
-    return this.client.transfer(this._factory.createResetRequest(reset));
+  public attemptReset(creator: ResetDtoCreator): Observable<SuccessResponse> {
+    return this.client.transfer(this.requestFactory.createResetRequest(
+      this.dtoFactory.createResetDTO(creator)));
   }
 }

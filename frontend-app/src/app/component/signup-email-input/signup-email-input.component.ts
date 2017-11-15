@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SignupStatus} from "../../status/signup-status";
-import {CheckEmailParams} from "../../model/params/check-email-params.model";
-import {CheckResponse} from "../../model/dto/check-response.model";
+import {CheckResponse} from "../../model/response/check-response";
 import {SignupService} from "../../service/signup.service";
 
 @Component({
@@ -21,7 +20,7 @@ export class SignupEmailInputComponent implements OnInit {
 
   protected checkEmail(): void {
     if (!this.status.emailIsValid()){ return; }
-    this.service.checkEmail(new CheckEmailParams(this.status.creator.email))
+    this.service.checkEmail(this.status.creator)
       .subscribe((response: CheckResponse) => this.handleResponse(response));
   }
 

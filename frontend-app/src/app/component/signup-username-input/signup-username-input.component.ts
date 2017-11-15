@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SignupStatus} from "../../status/signup-status";
-import {CheckUsernameParams} from "../../model/params/check-username-params.model";
-import {CheckResponse} from "../../model/dto/check-response.model";
+import {CheckResponse} from "../../model/response/check-response";
 import {SignupService} from "../../service/signup.service";
 
 @Component({
@@ -13,15 +12,14 @@ export class SignupUsernameInputComponent implements OnInit {
 
   constructor(
     private service: SignupService,
-    protected status: SignupStatus
-  ) { }
+    protected status: SignupStatus) { }
 
   ngOnInit() {
   }
 
   protected checkUsername(): void {
     if (!this.status.usernameIsValid()){ return; }
-    this.service.checkUsername(new CheckUsernameParams(this.status.creator.username))
+    this.service.checkUsername(this.status.creator)
       .subscribe((response: CheckResponse) => this.handleResponse(response));
   }
 

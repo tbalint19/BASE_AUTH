@@ -1,5 +1,5 @@
 <info-navbar
-  [text]="'Reset password for ' + reset.username">
+  [text]="'Reset password for ' + status.resetDtoCreator.username">
 </info-navbar>
 
 <div class="container">
@@ -13,7 +13,7 @@
         <div class="col-xs-offset-2 col-xs-8 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
           <input
             class="form-control"
-            [(ngModel)]="reset.password"
+            [(ngModel)]="status.resetDtoCreator.password"
             type="password"
             placeholder="New password"/>
         </div>
@@ -23,7 +23,7 @@
         <div class="col-xs-offset-2 col-xs-8 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
           <input
             class="form-control"
-            [(ngModel)]="reset.passwordAgain"
+            [(ngModel)]="status.resetDtoCreator.passwordAgain"
             type="password"
             placeholder="New password again"/>
         </div>

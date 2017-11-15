@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LoginStatus} from "../../status/login-status";
-import {SuccessResponse} from "../../model/dto/success-response.model";
+import {SuccessResponse} from "../../model/response/success-response";
 import {ResetEmailParams} from "../../model/params/reset-email-params.model";
 import {ResetService} from "../../service/reset.service";
 import {Message} from "../../model/message/message.model";
@@ -23,10 +23,12 @@ export class ResetPopupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.status.creator.reset();
   }
 
   protected openReset(): void {
     this.status.toggle(true);
+    this.status.creator.reset();
   }
 
   public requestReset(): void {
@@ -34,7 +36,7 @@ export class ResetPopupComponent implements OnInit {
       this.handleError()
       return;
     }
-    this.service.requestReset(this.status.params).subscribe(
+    this.service.requestReset(this.status.creator).subscribe(
       (response: SuccessResponse) => this.handleResetRequest(response.successful)
     );
   }

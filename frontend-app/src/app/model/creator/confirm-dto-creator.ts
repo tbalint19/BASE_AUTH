@@ -1,16 +1,18 @@
-export class ResetEmailParamsCreator {
-
+export class ConfirmDtoCreator {
+  
   public credential: string;
-
+  public code: string;
+  
   constructor(){
-    this.initialize()
+    this.initialize();
   }
-
+  
   public reset(): void {
-    this.initialize()
+    this.initialize();
   }
-
+  
   private initialize(): void {
     this.credential = "";
+    this.code = "";
   }
 }
