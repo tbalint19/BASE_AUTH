@@ -21,6 +21,8 @@ public class ResetService {
     @Autowired
     private ConfirmationService confirmationService;
 
+    private static final long DELAY = 300000;
+
     public Reset createReset(ApplicationUser user){
         if (!confirmationService.inTime(user) && !user.getConfirmed()){
             return null;
@@ -38,12 +40,19 @@ public class ResetService {
         Boolean successful = false;
         Reset reset = resetRepository.findByCode(code);
         if (reset != null && reset.getUserId().equals(user.getId())){
-            if ((user.getConfirmed() || confirmationService.inTime(user)) && !reset.getUsed()){
+            if ((user.getConfirmed() || confirmationService.inTime(user)) &&
+                    !reset.getUsed() && inTime(reset)){
                 reset.setUsed(true);
                 resetRepository.save(reset);
                 successful = true;
             }
         }
         return successful;
+    }
+
+    public Boolean inTime(Reset reset){
+        Long created = reset.getCreated().getTime();
+        Long current = new Date().getTime();
+        return created + DELAY > current;
     }
 }
