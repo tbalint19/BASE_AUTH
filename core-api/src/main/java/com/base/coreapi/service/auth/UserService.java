@@ -2,7 +2,7 @@ package com.base.coreapi.service.auth;
 
 import com.base.coreapi.model.auth.ApplicationUser;
 import com.base.coreapi.model.auth.Confirmation;
-import com.base.coreapi.repository.UserRepository;
+import com.base.coreapi.repository.auth.UserRepository;
 import com.base.coreapi.service.common.RandomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +52,7 @@ public class UserService {
     public String loginUser(ApplicationUser user, String rawPassword){
         ApplicationUser authenticatedUser = authService.authenticate(user, rawPassword);
         String token = null;
-        if (authenticatedUser != null && confirmationService.inTime(authenticatedUser)){
+        if (authenticatedUser != null && (authenticatedUser.getConfirmed() || confirmationService.inTime(authenticatedUser))){
             if (authenticatedUser.getConfirmed()) {
                 token = tokenService.createToken(authenticatedUser.getUsername());
             } else {

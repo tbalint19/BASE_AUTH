@@ -2,7 +2,7 @@ package com.base.coreapi.controller.auth;
 
 import com.base.coreapi.controller.microservice.EmailServiceController;
 import com.base.coreapi.model.auth.ApplicationUser;
-import com.base.coreapi.repository.UserRepository;
+import com.base.coreapi.repository.auth.UserRepository;
 import com.base.coreapi.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
