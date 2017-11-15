@@ -38,7 +38,7 @@ public class ResetService {
         Boolean successful = false;
         Reset reset = resetRepository.findByCode(code);
         if (reset != null && reset.getUserId().equals(user.getId())){
-            if (confirmationService.inTime(user) && !reset.getUsed()){
+            if ((user.getConfirmed() || confirmationService.inTime(user)) && !reset.getUsed()){
                 reset.setUsed(true);
                 resetRepository.save(reset);
                 successful = true;
