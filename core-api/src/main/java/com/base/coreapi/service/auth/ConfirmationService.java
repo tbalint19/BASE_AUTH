@@ -28,7 +28,10 @@ public class ConfirmationService {
     @Autowired
     private TokenService tokenService;
 
-    private static final long DELAY = 300000;
+    // 3.6 million milliseconds
+    // 1 hour
+    // confirmation is acceptable for 1 hour
+    private static final long DELAY = 3600000;
 
     public Confirmation createConfirmation(){
         Confirmation confirmation = new Confirmation();

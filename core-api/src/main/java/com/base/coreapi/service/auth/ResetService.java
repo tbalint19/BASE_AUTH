@@ -21,7 +21,10 @@ public class ResetService {
     @Autowired
     private ConfirmationService confirmationService;
 
-    private static final long DELAY = 300000;
+    // 300.000 millisecond
+    // 5 minutes
+    // a reset is acceptable for 5 minutes
+    private static final long RESET_DELAY = 300000;
 
     public Reset createReset(ApplicationUser user){
         if (!confirmationService.inTime(user) && !user.getConfirmed()){
@@ -53,6 +56,6 @@ public class ResetService {
     public Boolean inTime(Reset reset){
         Long created = reset.getCreated().getTime();
         Long current = new Date().getTime();
-        return created + DELAY > current;
+        return created + RESET_DELAY > current;
     }
 }
