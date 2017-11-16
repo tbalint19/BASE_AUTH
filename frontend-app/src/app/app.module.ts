@@ -36,7 +36,7 @@ import { NavbarLogoComponent } from './component/navbar-logo/navbar-logo.compone
 import { ResetPopupComponent } from './component/reset-popup/reset-popup.component';
 import {ResetStartStatus} from "./status/reset-start-status";
 import { MenuNavbarComponent } from './component/menu-navbar/menu-navbar.component';
-import { InfoNavbarComponent } from './component/info-navbar/info-navbar.component';
+import { ResetNavbarComponent } from './component/reset-navbar/reset-navbar.component';
 import {ResetStatus} from "./status/reset-status";
 import {ResetCodeValidator} from "./validator/reset-code-validator";
 import {ConfirmStatus} from "./status/confirm-status";
@@ -47,6 +47,7 @@ import { SignupComponent } from './component/signup/signup.component';
 import {AuthStatus} from "./status/auth-status";
 import { ConfirmPageComponent } from './component/confirm-page/confirm-page.component';
 import { ConfirmCodeInputComponent } from './component/confirm-code-input/confirm-code-input.component';
+import {ConfirmNavbarComponent} from "./component/confirm-navbar/confirm-navbar.component";
 
 @NgModule({
   declarations: [
@@ -66,9 +67,10 @@ import { ConfirmCodeInputComponent } from './component/confirm-code-input/confir
     NavbarLogoComponent,
     ResetPopupComponent,
     MenuNavbarComponent,
-    InfoNavbarComponent,
+    ResetNavbarComponent,
     SignupComponent,
     ConfirmPageComponent,
+    ConfirmNavbarComponent,
     ConfirmCodeInputComponent
   ],
   imports: [

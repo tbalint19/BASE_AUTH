@@ -101,6 +101,8 @@ export class ConfirmComponent implements OnInit {
 
   private handleFailedConfirm(): void {
     this.messages.add(new Error("Unsuccessful confirmation", "Invalid code or out of time"));
+    localStorage.removeItem("aut-token");
+    this.router.navigate([""]);
   }
 
   private initializeCreators(): void {
