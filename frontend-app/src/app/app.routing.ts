@@ -1,16 +1,13 @@
-import {HomeComponent} from './component/home/home.component';
+import {HomePageComponent} from './component/home-page/home-page.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
-import {StartComponent} from './component/start/start.component';
-import {ConfirmComponent} from './component/confirm/confirm.component';
-import {ConfirmGuard} from './guard/confirm.guard';
-import {ResetComponent} from "./component/reset/reset.component";
+import {ResetPageComponent} from "./component/reset-page/reset-page.component";
+import {ConfirmPageComponent} from "./component/confirm-page/confirm-page.component";
 
 const appRoutes: Routes = [
-  { path: 'start', component: StartComponent },
-  { path: 'confirm', component: ConfirmComponent },
-  { path: 'reset', component: ResetComponent },
-  { path: '', component: HomeComponent, canActivate: [AuthGuard, ConfirmGuard] },
+  { path: 'confirm', component: ConfirmPageComponent },
+  { path: 'reset', component: ResetPageComponent },
+  { path: '', component: HomePageComponent },
 
   { path: '**', redirectTo: '' }
 ];

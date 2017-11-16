@@ -1,13 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LoginDTO} from "../../model/dto/login-dto";
 import {TokenResponse} from "../../model/response/token-response";
-import {Message} from "../../model/message/message.model";
 import {Router} from "@angular/router";
 import {LoginService} from "../../service/login.service";
 import {MessageService} from "../../service/message.service";
 import {LoginStatus} from "../../status/login-status";
 import {Error} from "../../model/message/error.model";
 import {Success} from "../../model/message/success.model";
+import {AuthStatus} from "../../status/auth-status";
 
 @Component({
   selector: 'login-navbar',
@@ -18,12 +17,13 @@ export class LoginNavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private authStatus: AuthStatus,
     private service: LoginService,
     protected status: LoginStatus,
-    private messages: MessageService
-  ) { }
+    private messages: MessageService) { }
 
   ngOnInit() {
+    this.status.creator.reset();
   }
 
   public attemptLogin(): void {
@@ -55,9 +55,7 @@ export class LoginNavbarComponent implements OnInit {
   private handleSuccessfulLogin(token: string): void {
     if (token != null) {
       localStorage.setItem('auth-token', token);
-      sessionStorage.setItem('credential', this.status.creator.credential);
       this.messages.add(new Success("Successful login", "Welcome"));
-      this.router.navigate(['']);
     }
   }
 

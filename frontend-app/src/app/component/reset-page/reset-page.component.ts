@@ -10,10 +10,10 @@ import {Success} from "../../model/message/success.model";
 
 @Component({
   selector: 'app-reset',
-  templateUrl: './reset.component.html',
-  styleUrls: ['./reset.component.css']
+  templateUrl: './reset-page.component.html',
+  styleUrls: ['./reset-page.component.css']
 })
-export class ResetComponent implements OnInit {
+export class ResetPageComponent implements OnInit {
 
   constructor(
     private resetService: ResetService,

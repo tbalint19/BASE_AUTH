@@ -2,10 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './component/home/home.component';
+import { HomePageComponent } from './component/home-page/home-page.component';
 import {RoutingModule} from './app.routing';
 import {AuthGuard} from './guard/auth.guard';
-import { StartComponent } from './component/start/start.component';
 import {ConfirmGuard} from './guard/confirm.guard';
 import {ConfirmComponent} from './component/confirm/confirm.component';
 import {SignupService} from './service/signup.service';
@@ -14,7 +13,7 @@ import {HttpClient} from './http/http.client';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {ConfirmService} from './service/confirm.service';
-import { ResetComponent } from './component/reset/reset.component';
+import { ResetPageComponent } from './component/reset-page/reset-page.component';
 import {ResetService} from "./service/reset.service";
 import { MessagesComponent } from './component/messages/messages.component';
 import {MessageService} from "./service/message.service";
@@ -44,14 +43,17 @@ import {ConfirmStatus} from "./status/confirm-status";
 import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
 import {DtoFactory} from "./factory/dto-factory";
 import {ParamFactory} from "./factory/param-factory";
+import { SignupComponent } from './component/signup/signup.component';
+import {AuthStatus} from "./status/auth-status";
+import { ConfirmPageComponent } from './component/confirm-page/confirm-page.component';
+import { ConfirmCodeInputComponent } from './component/confirm-code-input/confirm-code-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    StartComponent,
+    HomePageComponent,
     ConfirmComponent,
-    ResetComponent,
+    ResetPageComponent,
     MessagesComponent,
     SignupUsernameInputComponent,
     InputInfoComponent,
@@ -64,7 +66,10 @@ import {ParamFactory} from "./factory/param-factory";
     NavbarLogoComponent,
     ResetPopupComponent,
     MenuNavbarComponent,
-    InfoNavbarComponent
+    InfoNavbarComponent,
+    SignupComponent,
+    ConfirmPageComponent,
+    ConfirmCodeInputComponent
   ],
   imports: [
     BrowserModule,
@@ -90,11 +95,12 @@ import {ParamFactory} from "./factory/param-factory";
     RequestFactory,
     ParamFactory,
     DtoFactory,
-    SignupStatus,
+    AuthStatus,
+    ConfirmStatus,
     LoginStatus,
-    ResetStartStatus,
     ResetStatus,
-    ConfirmStatus
+    ResetStartStatus,
+    SignupStatus
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

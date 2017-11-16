@@ -22,12 +22,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private RandomService randomService;
-
-    @Autowired
     private ConfirmationService confirmationService;
-
-    private static final String NO_CONF_PREFIX = "NoConf ";
 
     public ApplicationUser getUserByCredential(String credential){
         ApplicationUser userInDb;
@@ -52,14 +47,16 @@ public class UserService {
     public String loginUser(ApplicationUser user, String rawPassword){
         ApplicationUser authenticatedUser = authService.authenticate(user, rawPassword);
         String token = null;
-        if (authenticatedUser != null && (authenticatedUser.getConfirmed() || confirmationService.inTime(authenticatedUser))){
-            if (authenticatedUser.getConfirmed()) {
-                token = tokenService.createToken(authenticatedUser.getUsername());
-            } else {
-                token = NO_CONF_PREFIX + randomService.getRandomString(50);
-            }
+        if (shouldLogin(authenticatedUser)){
+            token = tokenService.createToken(
+                    authenticatedUser.getUsername(),
+                    authenticatedUser.getConfirmed());
         }
         return token;
+    }
+
+    private boolean shouldLogin(ApplicationUser user) {
+        return user != null && (user.getConfirmed() || confirmationService.inTime(user));
     }
 
 }

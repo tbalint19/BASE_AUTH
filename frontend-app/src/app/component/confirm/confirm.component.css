@@ -31,3 +31,9 @@
   color: #555;
   text-align: center;
 }
+
+.minified-alert {
+  text-align: center;
+  color: #5cb85c;
+  font-weight: bold;
+}

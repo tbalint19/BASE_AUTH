@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ConfirmationDTO} from '../../model/dto/confirm-dto';
 import {ConfirmService} from '../../service/confirm.service';
 import {TokenResponse} from '../../model/response/token-response';
@@ -10,17 +10,22 @@ import {ConfirmEmailParams} from "../../model/params/confirm-email-params.model"
 import {SuccessResponse} from "../../model/response/success-response";
 import {Success} from "../../model/message/success.model";
 import {Error} from "../../model/message/error.model";
+import {AuthStatus} from "../../status/auth-status";
 
 @Component({
-  selector: 'app-confirm',
+  selector: 'confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.css']
 })
 export class ConfirmComponent implements OnInit {
 
+  @Input()
+  public minified: boolean;
+
   constructor(
     private confirmService: ConfirmService,
     protected status: ConfirmStatus,
+    private authStatus: AuthStatus,
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private messages: MessageService,
@@ -28,16 +33,11 @@ export class ConfirmComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.status.confirmDtoCreator.reset();
-    this.status.confirmEmailParamsCreator.reset();
+    this.initializeCreators();
     this.activatedRoute.queryParams.subscribe(
       (params: Params) => {
         if (params['code'] && params['user']) {
           this.attemptConfirmFromParams(params);
-        } else if (sessionStorage.getItem('credential')) {
-          this.initConfirmFromLogin();
-        } else {
-          this.router.navigate(['start']);
         }
       }
     );
@@ -64,12 +64,6 @@ export class ConfirmComponent implements OnInit {
     this.status.confirmDtoCreator.code = params['code'];
     this.status.confirmDtoCreator.credential = params['user'];
     this.attemptConfirm();
-  }
-
-  private initConfirmFromLogin(): void {
-    this.status.confirmDtoCreator.credential = sessionStorage.getItem('credential');
-    this.status.confirmEmailParamsCreator.credential = sessionStorage.getItem('credential');
-    sessionStorage.removeItem('credential');
   }
 
   private suspendConfirm(): void {
@@ -104,6 +98,13 @@ export class ConfirmComponent implements OnInit {
 
   private handleFailedConfirm(): void {
     this.messages.add(new Error("Unsuccessful confirmation", "Invalid code or out of time"));
+  }
+
+  private initializeCreators(): void {
+    this.status.confirmDtoCreator.reset();
+    this.status.confirmEmailParamsCreator.reset();
+    this.status.confirmDtoCreator.credential = this.authStatus.getCredential();
+    this.status.confirmEmailParamsCreator.credential = this.authStatus.getCredential();
   }
 
 }

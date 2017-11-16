@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import jwtDecode from "jwt-decode";
 
 @Injectable()
 export class AuthStatus {
@@ -10,7 +11,18 @@ export class AuthStatus {
   }
 
   public isConfirmed(): boolean {
-    return this.isAuthenticated() && localStorage.getItem('auth-token')
-      .includes("Bearer ");
+    return this.isAuthenticated() ? this.getSub() == "true" : false;
+  }
+
+  public getCredential(): string {
+    return this.isAuthenticated() ? this.getAud() : null;
+  }
+
+  private getAud(): string {
+    return jwtDecode(localStorage.getItem('auth-token'))['aud'];
+  }
+
+  private getSub(): string {
+    return jwtDecode(localStorage.getItem('auth-token'))['sub'];
   }
 }

@@ -52,7 +52,7 @@ public class ConfirmationService {
             return null;
         }
         confirm(user);
-        return tokenService.createToken(user.getUsername());
+        return tokenService.createToken(user.getUsername(), user.getConfirmed());
     }
 
     private void confirm(ApplicationUser user){

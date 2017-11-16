@@ -22,12 +22,12 @@ import static com.base.coreapi.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    @Autowired
     private TokenService tokenService;
 
     JWTAuthorizationFilter(AuthenticationManager authenticationManager){
 
         super(authenticationManager);
+        this.tokenService = new TokenService();
     }
 
     @Override
@@ -51,8 +51,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String token){
-        String username = tokenService.parseToken(token);
+        String username = tokenService.parseTokenForUsername(token);
         if (username == null){
+            return null;
+        }
+        String isConfirmed = tokenService.parseTokenForConfirmation(token);
+        if (isConfirmed.equals("false")) {
             return null;
         }
         CredentialsContainer credentials = null;
