@@ -16,14 +16,22 @@ public class UnconfirmedUserManager {
     @Autowired
     private UserRepository userRepository;
 
-    private static final long DELAY = 3600000;
+    // 3.6 million millisecond
+    // 1 hour
+    // delete every user, that is not confirmed in an hour
+    private static final long DELETE_DELAY = 3600000;
 
-    @Scheduled(fixedDelay = 3000)
+    // 60000 milliseconds
+    // 1 minute
+    // waits 1 minute between 2 runs
+    private static final long RUNNING_DELAY = 60000;
+
+    @Scheduled(fixedDelay = RUNNING_DELAY)
     public void deleteUnconfirmed(){
         boolean status = false;
         long current = new Date().getTime();
         Date date = new Date();
-        date.setTime(current - DELAY);
+        date.setTime(current - DELETE_DELAY);
         userRepository.deleteApplicationUserByConfirmedAndCreatedBefore(status, date);
     }
 }
