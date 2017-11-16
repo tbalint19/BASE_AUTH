@@ -16,7 +16,7 @@ public class UnconfirmedUserManager {
     @Autowired
     private UserRepository userRepository;
 
-    private static final long DELAY = 300000;
+    private static final long DELAY = 3600000;
 
     @Scheduled(fixedDelay = 3000)
     public void deleteUnconfirmed(){
