@@ -24,10 +24,14 @@ public class UserService {
     @Autowired
     private ConfirmationService confirmationService;
 
+    @Autowired
+    private CheckService checkService;
+
     public ApplicationUser getUserByCredential(String credential){
         ApplicationUser userInDb;
         if (credential.contains("@")){
-            userInDb = userRepository.findByEmailIgnoreCase(credential);
+            userInDb = userRepository.findByEmailIgnoreCase(
+                    checkService.cleanseEmail(credential));
         } else {
             userInDb = userRepository.findByUsernameIgnoreCase(credential);
         }
@@ -40,6 +44,8 @@ public class UserService {
         user.setConfirmed(false);
         user.setConfirmation(confirmation);
         user.setCreated(new Date());
+        String cleansedEmail = checkService.cleanseEmail(user.getEmail());
+        user.setEmail(cleansedEmail);
         userRepository.save(user);
         return user;
     }

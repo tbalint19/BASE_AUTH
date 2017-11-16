@@ -18,7 +18,8 @@ public class CheckController extends AuthAPI {
 
     @GetMapping("/email")
     public CheckResponse checkEmail(@RequestParam String email){
-        Boolean available = userRepository.findByEmailIgnoreCase(email) == null;
+        Boolean available = userRepository.findByEmailIgnoreCase(
+                checkService.cleanseEmail(email)) == null;
         return new CheckResponse(available);
     }
 }

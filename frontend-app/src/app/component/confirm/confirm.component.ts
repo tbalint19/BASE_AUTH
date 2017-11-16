@@ -41,6 +41,9 @@ export class ConfirmComponent implements OnInit {
         }
       }
     );
+    if (!this.status.confirmDtoCreator.credential) {
+      this.router.navigate(['']);
+    }
   }
 
   public attemptConfirm(): void {
